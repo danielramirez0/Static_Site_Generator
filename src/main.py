@@ -1,5 +1,7 @@
 from textnode import TextNode
 
-first_node = TextNode("The first text node", "bold", "http://www.my-site.com")
+def main():
+    node = TextNode("This is a text node", "bold", "http://www.my-site.com")
+    print(node)
 
-print(first_node)
+main()
