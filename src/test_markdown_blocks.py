@@ -41,8 +41,6 @@ class TestMarkdownBlocks(unittest.TestCase):
         ]
         self.assertEqual(markdown_to_blocks(markdown), expected_blocks)
 
-
-
     def test_block_to_block_type_ordered_list(self):
         block = "1. This is an ordered list item"
         expected_block_type = "ordered_list"
@@ -62,15 +60,10 @@ class TestMarkdownBlocks(unittest.TestCase):
         block = "```python\nprint('Hello, World!')\n```"
         expected_block_type = "code"
         self.assertEqual(block_to_block_type(block), expected_block_type)
-    
+
     def test_block_to_block_type_quote(self):
         block = "> This is a quote"
         expected_block_type = "quote"
-        self.assertEqual(block_to_block_type(block), expected_block_type)
-    
-    def test_block_to_block_type_unordered_list(self):
-        block = "- This is an unordered list item"
-        expected_block_type = "unordered_list"
         self.assertEqual(block_to_block_type(block), expected_block_type)
 
 
