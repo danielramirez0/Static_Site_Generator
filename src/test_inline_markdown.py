@@ -49,20 +49,20 @@ class TestInlineMarkdown(unittest.TestCase):
     
     def test_extract_markdown_images(self):
         text = "This is a ![test](test.png) with an image"
-        expected_images = [TextNode("test", "image", "test.png")]
+        expected_images = [("test", "test.png")]
         self.assertEqual(extract_markdown_images(text), expected_images)
 
         multiple_images_text = "This is a ![test](test.png) with an image and another ![image](image.png)"
-        expected_images = [TextNode("test", "image", "test.png"), TextNode("image", "image", "image.png")]
+        expected_images = [("test", "test.png"), ("image", "image.png")]
         self.assertEqual(extract_markdown_images(multiple_images_text), expected_images)
     
     def test_extract_markdown_links(self):
         text = "This is a [test](https://test.com) with a link"
-        expected_links = [TextNode("test", "link", "https://test.com")]
+        expected_links = [("test", "https://test.com")]
         self.assertEqual(extract_markdown_links(text), expected_links)
 
         multiple_links_text = "This is a [test](https://test.com) with a link and another [link](https://link.com)"
-        expected_links = [TextNode("test", "link", "https://test.com"), TextNode("link", "link", "https://link.com")]
+        expected_links = [("test", "https://test.com"), ("link", "https://link.com")]
         self.assertEqual(extract_markdown_links(multiple_links_text), expected_links)
 
 if __name__ == "__main__":
