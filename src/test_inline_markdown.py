@@ -1,11 +1,11 @@
 import unittest
-from inline_markdown import split_nodes_delimiter, TextNode, extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link
+from inline_markdown import split_nodes_delimiter, TextNode, extract_markdown_images, extract_markdown_links, split_nodes_image, split_nodes_link, text_to_textnodes
 
 class TestInlineMarkdown(unittest.TestCase):
     def test_split_nodes_bold_delimiter(self):
         old_nodes = [
-            TextNode("This is a **bolded** test", "bold"),
-            TextNode("This is another **bold** test", "bold"),
+            TextNode("This is a **bolded** test", "text"),
+            TextNode("This is another **bold** test", "text"),
         ]
         delimiter = "**"
         text_type = "bold"
@@ -21,8 +21,8 @@ class TestInlineMarkdown(unittest.TestCase):
 
     def test_split_nodes_italic_delimiter(self):
         old_nodes = [
-            TextNode("This is *italic* text", "italic"),
-            TextNode("This is *another* test with *italic* text", "italic"),
+            TextNode("This is *italic* text", "text"),
+            TextNode("This is *another* test with *italic* text", "text"),
         ]
         delimiter = "*"
         text_type = "italic"
@@ -40,7 +40,7 @@ class TestInlineMarkdown(unittest.TestCase):
 
     def test_split_nodes_delimiter_with_unbalanced_delimiter(self):
         old_nodes = [
-            TextNode("Bold test with unbalanced** delimiter", "bold"),
+            TextNode("Bold test with unbalanced** delimiter", "text"),
         ]
         delimiter = "**"
         text_type = "bold"
@@ -151,6 +151,22 @@ class TestInlineMarkdown(unittest.TestCase):
         ]
         self.assertEqual(split_nodes_link(no_link_node), expected_nodes)
 
+
+    def test_text_to_textnodes(self):
+        text = "This is a **bolded** and *italic* `code` test with an ![image](test.png) and a [link](https://test.com)"
+        expected_nodes = [
+            TextNode("This is a ", "text"),
+            TextNode("bolded", "bold"),
+            TextNode(" and ", "text"),
+            TextNode("italic", "italic"),
+            TextNode(" ", "text"),
+            TextNode("code", "code"),
+            TextNode(" test with an ", "text"),
+            TextNode("image", "image", "test.png"),
+            TextNode(" and a ", "text"),
+            TextNode("link", "link", "https://test.com")
+        ]
+        self.assertEqual(text_to_textnodes(text), expected_nodes)
 
 if __name__ == "__main__":
     unittest.main()
