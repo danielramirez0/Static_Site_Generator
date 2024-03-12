@@ -1,5 +1,5 @@
 import unittest
-from markdown_blocks import block_to_block_type, markdown_to_blocks
+from markdown_blocks import block_to_block_type, markdown_to_blocks, block_types
 
 
 class TestMarkdownBlocks(unittest.TestCase):
@@ -43,28 +43,48 @@ class TestMarkdownBlocks(unittest.TestCase):
 
     def test_block_to_block_type_ordered_list(self):
         block = "1. This is an ordered list item"
-        expected_block_type = "ordered_list"
+        expected_block_type = block_types["ordered_list"]
         self.assertEqual(block_to_block_type(block), expected_block_type)
 
     def test_block_to_block_type_heading(self):
         block = "# This is a heading"
-        expected_block_type = "heading1"
+        expected_block_type = block_types["heading"]
         self.assertEqual(block_to_block_type(block), expected_block_type)
 
     def test_block_to_block_type_paragraph(self):
         block = "This is a paragraph"
-        expected_block_type = "paragraph"
+        expected_block_type = block_types["paragraph"]
         self.assertEqual(block_to_block_type(block), expected_block_type)
 
     def test_block_to_block_type_code_block(self):
         block = "```python\nprint('Hello, World!')\n```"
-        expected_block_type = "code"
+        expected_block_type = block_types["code"]
         self.assertEqual(block_to_block_type(block), expected_block_type)
 
     def test_block_to_block_type_quote(self):
         block = "> This is a quote"
-        expected_block_type = "quote"
+        expected_block_type = block_types["quote"]
         self.assertEqual(block_to_block_type(block), expected_block_type)
+
+    def test_markdown_to_blocks_again(self):
+        md = """
+This is **bolded** paragraph
+
+This is another paragraph with *italic* text and `code` here
+This is the same paragraph on a new line
+
+* This is a list
+* with items
+"""
+        blocks = markdown_to_blocks(md)
+        self.assertEqual(
+            blocks,
+            [
+                "This is **bolded** paragraph",
+                "This is another paragraph with *italic* text and `code` here\nThis is the same paragraph on a new line",
+                "* This is a list\n* with items",
+            ],
+        )
 
 
 if __name__ == "__main__":
