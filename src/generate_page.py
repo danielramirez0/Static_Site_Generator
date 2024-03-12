@@ -8,12 +8,9 @@ def generate_page(from_path, template_path, dest_path):
     with open(template_path, "r") as f:
         template = f.read()
     node = md_to_html(content)
-    print(node)
-    # html = node.to_html()
+    html = node.to_html()
     title = extract_title(content)
-    print(title)
-    # print(template.replace("{{Content}}", html).replace("{{Title}}", title))
-    # with open(dest_path, "w") as f:
-    #     f.write(template.replace("{{Content}}", html).replace("{{Title}}", title))
+    with open(dest_path, "w") as f:
+        f.write(template.replace("{{ Content }}", html).replace("{{ Title }}", title))
 
     
