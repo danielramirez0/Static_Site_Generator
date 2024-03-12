@@ -1,6 +1,6 @@
 import os
 import shutil
-from copystatic import copy_dir_to_dest
+from copy_static import copy_dir_to_dest
 from textnode import TextNode
 
 
